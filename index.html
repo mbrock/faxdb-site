@@ -1,0 +1,82 @@
+<!doctype html>
+<meta charset=utf-8>
+<title>Faxdb</title>
+<style>
+body { margin: 2rem auto; padding: 1rem; max-width: 30rem; }
+body { background-color: rgba(255, 255, 100, 0.03); }
+body { color: #222; }
+html { font: 22px/1.4 "times new roman", times, serif; }
+code { font-family: courier; }
+h2 { font-family: helvetica, sans-serif; font-size: inherit; }
+h2 { margin-top: 2rem; }
+b { font-family: helvetica, sans-serif; }
+h2, b, abbr { font-variant: small-caps; }
+dfn { font-style: italic; }
+pre { padding-left: 1rem; }
+code { font-size: 0.8rem; }
+dl { margin-left: 1rem; }
+a { text-decoration: none; }
+a { font-style: italic; color: #33a; }
+</style>
+<body>
+
+<center><img src=fax.svg style="height: 5rem"></center>
+
+<p><b>faxdb</b> is a simple document database for real-time and
+offline sync.
+
+<p>A <dfn>document</dfn> is a named entity containing a
+
+<dl>
+
+<dt><dfn>log:
+
+<dd>a sequence of &hellip;
+
+<dt><dfn>commits:
+
+<dd>Git-style records, each containing a parent hash and some
+&hellip;
+
+<dt><dfn>facts:
+
+<dd><abbr>json</abbr> values, representing updates
+according to &hellip;
+
+<dt><dfn>semantics:
+
+<dd>pure JavaScript functions, transforming the &hellip;
+
+<dt><dfn>state:
+
+<dd>a <abbr>json</abbr> value, representing a view of the document.
+
+</dl>
+
+<p>Logs are append-only and facts are never forgotten.
+
+This amounts to a form of <a href="#event-sourcing">event
+sourcing</a>.
+
+<p>New clients need only download the latest state and hash.  To keep in
+sync, they can poll or stream, always only downloading the newest
+commits.
+
+<p>Clients capable of evaluating JavaScript can listen for commits and
+update states with the same semantics as the server.
+
+<h2>commit algorithm</h2>
+
+<p>When a client pushes a commit, the server ensures that the parent
+hash matches the current head.
+
+<p>If the parent hash does not match the head, the client receives the
+delta so it can try to rebase its changes and recommit.
+
+<p>If the parent hash matches the head, the server attempts to apply
+the semantic function to update its cached state.
+
+<p>If the semantic function fails, the commit is abandoned.
+
+<p>If the semantic function succeeds, the commit is recorded and
+streaming clients are notified.
