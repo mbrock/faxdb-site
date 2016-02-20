@@ -25,31 +25,34 @@ a { font-style: italic; color: #33a; }
 <p><b>faxdb</b> is a simple document database for real-time and
 offline sync.
 
-<p>A <dfn>document</dfn> is a named entity containing a
+<p>It treats a
 
 <dl>
 
-<dt><dfn>log:
+<dt><dfn>document</dfn>
 
-<dd>a sequence of &hellip;
+<dd>as a named entity containing a
+  
+<dt><dfn>log,
+
+<dd>which is a sequence of
 
 <dt><dfn>commits:
 
 <dd>Git-style records, each containing a parent hash and some
-&hellip;
 
 <dt><dfn>facts:
 
 <dd><abbr>json</abbr> values, representing updates
-according to &hellip;
+according to some
 
-<dt><dfn>semantics:
+<dt><dfn>semantics,
 
-<dd>pure JavaScript functions, transforming the &hellip;
+<dd>pure JavaScript functions, transforming the
 
-<dt><dfn>state:
+<dt><dfn>state,
 
-<dd>a <abbr>json</abbr> value, representing a view of the document.
+<dd>a <abbr>json</abbr> value representing a view of the document.
 
 </dl>
 
@@ -64,6 +67,26 @@ commits.
 
 <p>Clients capable of evaluating JavaScript can listen for commits and
 update states with the same semantics as the server.
+
+<h2>related stuff</h2>
+
+You could say it&rsquo;s &hellip;
+
+<dl>
+
+<dt>like <dfn>CouchDB</dfn> &amp; <dfn>PouchDB</dfn> or <dfn>RethinkDB</dfn>;
+
+<dd>but more centralized and focused on domain events;
+
+<dt>or like <dfn>Git,
+
+<dd>but with less source control stuff and more streaming JSON; or
+
+<dt>or like <dfn>Event Store,
+
+<dd>but simpler and somehow nicer in a currently unclear way.
+
+</dl>
 
 <h2>commit algorithm</h2>
 
