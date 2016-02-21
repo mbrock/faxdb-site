@@ -68,26 +68,6 @@ commits.
 <p>Clients capable of evaluating JavaScript can listen for commits and
 update states with the same semantics as the server.
 
-<h2>related stuff</h2>
-
-You could say it&rsquo;s &hellip;
-
-<dl>
-
-<dt>like <dfn>CouchDB</dfn> &amp; <dfn>PouchDB</dfn> or <dfn>RethinkDB</dfn>;
-
-<dd>but more centralized and focused on domain events;
-
-<dt>or like <dfn>Git,
-
-<dd>but with less source control stuff and more streaming JSON; or
-
-<dt>or like <dfn>Event Store,
-
-<dd>but simpler and somehow nicer in a currently unclear way.
-
-</dl>
-
 <h2>commit algorithm</h2>
 
 <p>When a client pushes a commit, the server ensures that the parent
@@ -103,3 +83,16 @@ the semantic function to update its cached state.
 
 <p>If the semantic function succeeds, the commit is recorded and
 streaming clients are notified.
+
+<h2>transactions</h2>
+
+<p>When updating multiple documents, multi-commit transactions can be
+crucial.
+
+<p>When updating a single document, transactions are usually
+unnecessary, since facts are atomic and semantics can update the state
+arbitrarily.  Still, you might need them in some situations.
+
+<p>Transactionality is not recorded in history.  It is only an aspect
+of how the server performs commits.  So while replaying history,
+inconsistent states can occur.
